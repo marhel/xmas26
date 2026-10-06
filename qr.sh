@@ -1,11 +1,12 @@
 NUM=0
 if [ ! -f groups ]; then
 	echo Genererar 24 groups
-	for n in {1..24}; do hexdump -n 3 -e '4/4 "%06x" 1 "\n"' /dev/random; done > groups
+	for n in {1..24}; do hexdump -n 3 -e '1/4 "%06x\n"' /dev/random; done > groups
 else
 	echo Groups finns redan
 fi
 YEAR=$(date +%y)
+mkdir -p dagar
 cat groups | xargs -I% echo https://marhel.github.io/xmas$YEAR/?g=% | while read URL
 do   
 	NUM=$(($NUM + 1))
